@@ -55,7 +55,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Aqui ficaria uma breve descrição do jogo apara o jogador endenter como funciona</string>
+     <string>Aqui ficaria uma breve descrição do jogo para o jogador entender como funciona</string>
     </property>
    </widget>
   </widget>
