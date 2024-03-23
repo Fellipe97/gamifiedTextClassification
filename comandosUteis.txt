@@ -1,0 +1,18 @@
+pyuic5 base.ui -o base.py
+pyuic5 telaHome.ui -o telaHome.py
+
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
+python -m pip freeze > requirements.txt
+
+pyinstaller --onefile nomedoarquivo.py
+
+
+
+bibliotecas:
+pip install pyuic5-tool
+pip install pyqt5
+
+python -m pip install pyqt5
