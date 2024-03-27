@@ -11,16 +11,118 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi
 
 import base
 
+global_var = 0
+
+dificuldade_escolhido = ''
+tema_escolhido = ''
+contagem_regressiva_ativa = False
 
 class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
     def __init__(self, parent=None):
         super(Janela, self).__init__(parent)
         self.setupUi(self)
+        #componentes qt designer
+        self.startGameButton.clicked.connect(self.proxima_pagina)
+        self.continueGame1Button.clicked.connect(self.verificarRadioButton)
+        self.continueGame2Button.clicked.connect(self.proxima_pagina)
+        self.resetGame1Button.clicked.connect(self.resetTema)
+        
+        # Define o tamanho mínimo e máximo da janela
+        self.setMinimumSize(800, 600)
+        self.setMaximumSize(800, 600)
+        
+        self.valor_atual = 10  # Valor inicial do QLCDNumber
+        self.lcdNumber.display(self.valor_atual) 
+        
+        #tema_escolhido
+
+        
+        
+        
+    
+    def proxima_pagina(self):
+        indice_atual = self.stackedWidget.currentIndex()
+        proximo_indice = (indice_atual + 1) % self.stackedWidget.count()
+        self.stackedWidget.setCurrentIndex(proximo_indice)
+       
+    def pagina_anterior(self):
+        indice_atual = self.stackedWidget.currentIndex()
+        indice_anterior = (indice_atual - 1) % self.stackedWidget.count()
+        self.stackedWidget.setCurrentIndex(indice_anterior)
+    
+    
+    
+    def iniciar_contagem_regressiva(self):
+        global contagem_regressiva_ativa
+        contagem_regressiva_ativa = True
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.atualizar_lcd)
+        self.timer.start(1000)  # 1000 ms = 1 segundo
+
+    def atualizar_lcd(self):
+        global contagem_regressiva_ativa
+        if contagem_regressiva_ativa:
+            self.valor_atual -= 1
+            self.lcdNumber.display(self.valor_atual)
+            if self.valor_atual == -1:
+                self.timer.stop()
+                self.proxima_pagina()
+
+    def resetTema(self):
+        global contagem_regressiva_ativa
+        contagem_regressiva_ativa = False
+        self.valor_atual = 10
+        self.lcdNumber.display(10)
+        self.pagina_anterior()
+        
+        
+        
+    
+    def verificarRadioButton(self):
+        global dificuldade_escolhido
+        global tema_escolhido
+                
+        dificuldade_escolhido = None
+        tema_escolhido = None
+
+        # Verifica a dificuldade escolhida
+        if self.radioButton_facil.isChecked():
+            dificuldade_escolhido = 'facil'
+        elif self.radioButton_dificil.isChecked():
+            dificuldade_escolhido = 'dificil'
+
+        # Verifica o tema escolhido
+        temas_radio_buttons = {
+            'Futebol': self.radioButton_futebol,
+            'Filme': self.radioButton_filme,
+            'Alimento': self.radioButton_alimento,
+            'Anime': self.radioButton_anime,
+            'Bandeira': self.radioButton_bandeira,
+            'Artista': self.radioButton_artista,
+            'Ferramenta': self.radioButton_ferramenta,
+            'Cor': self.radioButton_cor
+        }
+
+        for tema, radio_button in temas_radio_buttons.items():
+            if radio_button.isChecked():
+                tema_escolhido = tema
+                break
+
+        if dificuldade_escolhido is None or tema_escolhido is None:
+            msg = QMessageBox()
+            msg.setWindowTitle('ERRO')
+            msg.setText("Selecione as opções corretamente.")
+            msg.setIcon(QMessageBox.Information)
+            msg.exec_()
+        else:
+            self.proxima_pagina()
+            self.iniciar_contagem_regressiva()
+            self.tema_escolhido.setText('Tema escolhido: '+tema_escolhido)
 
 
 
