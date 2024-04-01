@@ -21,7 +21,7 @@ load_dotenv()
 
 import openai
 
-
+import time
 
 import requests
 import json
@@ -54,6 +54,7 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
         
         self.valor_atual = 30  # Valor inicial do QLCDNumber
         self.lcdNumber.display(self.valor_atual) 
+        
                 
         #tema_escolhido
         
@@ -70,6 +71,7 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
     
     def proxima_pagina(self):
         indice_atual = self.stackedWidget.currentIndex()
+            
         proximo_indice = (indice_atual + 1) % self.stackedWidget.count()
         self.stackedWidget.setCurrentIndex(proximo_indice)
        
@@ -239,7 +241,7 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             if radio_button.isChecked():
                 tema_escolhido = tema
                 break
-
+        
         if dificuldade_escolhido is None or tema_escolhido is None:
             msg = QMessageBox()
             msg.setWindowTitle('ERRO')
@@ -248,7 +250,16 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             msg.exec_()
             
         else:
+            #self.label_3.hide()
             self.proxima_pagina()
+            msg = QMessageBox()
+            msg.setWindowTitle('Carregando as informações do gpt.')
+            msg.setText("Por favor espere a imagem ser gerada.")
+            msg.setIcon(QMessageBox.Information)
+            msg.exec_()
+            
+            ''' print('testeeee')
+            time.sleep(5) '''
             self.gptData()
             
             
@@ -311,7 +322,11 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             self.tema_escolhido.setText('Tema escolhido: '+tema_escolhido)
             
             
-            self.proxima_pagina()
+            #self.proxima_pagina()
+            indice_atual = self.stackedWidget.currentIndex()
+            proximo_indice = (indice_atual + 1) % self.stackedWidget.count()
+            self.stackedWidget.setCurrentIndex(proximo_indice)
+            
             self.iniciar_contagem_regressiva()
                 
 
