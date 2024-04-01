@@ -529,6 +529,36 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
       </widget>
      </widget>
     </widget>
+    <widget class="QWidget" name="page_5">
+     <widget class="QLabel" name="label_6">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>250</y>
+        <width>791</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>-1</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: black;
+font-size: 32px;
+font-weight: bold;</string>
+      </property>
+      <property name="text">
+       <string>CARREGANDO . . .</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="page_3">
      <widget class="QLabel" name="tema_escolhido">
       <property name="geometry">
@@ -713,6 +743,19 @@ border-radius: 50%
        <bool>false</bool>
       </property>
      </widget>
+     <widget class="QLabel" name="imgLabel">
+      <property name="geometry">
+       <rect>
+        <x>6</x>
+        <y>112</y>
+        <width>791</width>
+        <height>331</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="page_4">
      <widget class="QLabel" name="label_4">
@@ -726,6 +769,41 @@ border-radius: 50%
       </property>
       <property name="text">
        <string>ZEROUUU</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="testeButton_2">
+      <property name="geometry">
+       <rect>
+        <x>290</x>
+        <y>400</y>
+        <width>200</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>300</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>8514oem</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+</string>
+      </property>
+      <property name="text">
+       <string>TESTE</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
       </property>
      </widget>
     </widget>
