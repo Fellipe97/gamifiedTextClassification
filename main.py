@@ -46,7 +46,6 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
         self.continueGame1Button.clicked.connect(self.verificarRadioButton)
         self.continueGame2Button.clicked.connect(self.proxima_pagina)
         self.resetGame1Button.clicked.connect(self.resetTema)
-        self.testeButton_2.clicked.connect(self.testeFunction)
         
         # Define o tamanho mínimo e máximo da janela
         self.setMinimumSize(800, 600)
@@ -56,17 +55,13 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
         self.lcdNumber.display(self.valor_atual) 
         
                 
-        #tema_escolhido
+        self.textRespostaUser.setPlaceholderText('Digite a sua resposta...')
         
-
-        # Carregar a imagem a partir do link da web
-        #pixmap = QPixmap()
-        #pixmap.loadFromData(requests.get('https://avatars.githubusercontent.com/u/58015799?s=96&v=4').content)
+        self.validarResposta.clicked.connect(self.similaridade)
         
-        #colocar essa imagem nessa label => imgLabel
-        #self.imgLabel.setPixmap(pixmap)
-        #self.setCentralWidget(self.imgLabel)
+        self.restartButton.clicked.connect(self.restartGame)
 
+       
           
     
     def proxima_pagina(self):
@@ -75,19 +70,20 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
         proximo_indice = (indice_atual + 1) % self.stackedWidget.count()
         self.stackedWidget.setCurrentIndex(proximo_indice)
        
+       
     def pagina_anterior(self):
         indice_atual = self.stackedWidget.currentIndex()
         indice_anterior = (indice_atual - 1) % self.stackedWidget.count()
         self.stackedWidget.setCurrentIndex(indice_anterior)
     
-    
-    
+      
     def iniciar_contagem_regressiva(self):
         global contagem_regressiva_ativa
         contagem_regressiva_ativa = True
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.atualizar_lcd)
         self.timer.start(1000)  # 1000 ms = 1 segundo
+
 
     def atualizar_lcd(self):
         global contagem_regressiva_ativa
@@ -98,14 +94,19 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
                 self.timer.stop()
                 self.proxima_pagina()
 
-    def resetTema(self):
+
+    def resetTime(self):
         global contagem_regressiva_ativa
         contagem_regressiva_ativa = False
         self.valor_atual = 30
-        self.lcdNumber.display(10)
+        self.lcdNumber.display(30)
+
+
+    def resetTema(self):
+        self.resetTime()
         self.pagina_anterior()
         self.pagina_anterior()
-        
+     
     
     def testeFunction(self):
         try:
@@ -202,8 +203,12 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             
         except Exception as e:
             print(f'Erro de conexão: ', {e})
+  
     
-    
+    def restartGame(self):
+        self.textRespostaUser.setText('')
+        self.resetTime()
+        self.proxima_pagina()
     
     
     def verificarRadioButton(self):
@@ -275,22 +280,26 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             else:
                 pesquisa = f"Gere uma imagem com muito detalhe que tenha tema {tema_escolhido}, sem direitos autorais"
                 print('dificil') 
-                
-            responseImg = openai.Image.create(
+            
+            #esta correto mas irei comentar para economizar    
+            ''' responseImg = openai.Image.create(
                 model="dall-e-3",
                 prompt= pesquisa,
                 n=1,
             )
             print('\nURL DA IMAGEM GERADA: ',responseImg["data"][0]["url"])
-            linkFoto_gpt = responseImg["data"][0]["url"]
+            linkFoto_gpt = responseImg["data"][0]["url"] '''
+            linkFoto_gpt = 'https://avatars.githubusercontent.com/u/58015799?s=96&v=4'
             
+            #setar a imagem no programa
             pixmap = QPixmap()
             pixmap.loadFromData(requests.get(linkFoto_gpt).content)
             self.imgLabel.setPixmap(pixmap)
             
             
+            #esta correto mas irei comentar para economizar
             #analisar a imagem e pegar a resposta do gpt
-            if dificuldade_escolhido == 'facil':
+            ''' if dificuldade_escolhido == 'facil':
                 pesquisa = "Descreva as coisas concretas com pouco detalhe, sucinto e fácil entendimento essa imagem"
                 print('facil')
             else:
@@ -315,17 +324,18 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
 
             print(response.choices[0])
             print('\n\nRESPOSTAAA: ',response["choices"][0]["message"]["content"])
-            textoResposta_gpt = response["choices"][0]["message"]["content"]
+            textoResposta_gpt = response["choices"][0]["message"]["content"] '''
             
+            textoResposta_gpt = 'Uma foto de perfil de um usuário com olhos verdes.' 
+            self.resposta_gpt.setText(textoResposta_gpt)
     
-        
             self.tema_escolhido.setText('Tema escolhido: '+tema_escolhido)
             
-            
-            #self.proxima_pagina()
-            indice_atual = self.stackedWidget.currentIndex()
+            self.resetTime()
+            self.proxima_pagina()
+            ''' indice_atual = self.stackedWidget.currentIndex()
             proximo_indice = (indice_atual + 1) % self.stackedWidget.count()
-            self.stackedWidget.setCurrentIndex(proximo_indice)
+            self.stackedWidget.setCurrentIndex(proximo_indice) '''
             
             self.iniciar_contagem_regressiva()
                 
@@ -338,8 +348,25 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             msg.setIcon(QMessageBox.Information)
             msg.exec_()
             self.pagina_anterior()
+          
                 
+    def similaridade(self):
+        if self.textRespostaUser.toPlainText():
+            self.resposta_usuario.setText(self.textRespostaUser.toPlainText())
+            self.proxima_pagina()
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle('ERRO')
+            msg.setText("Por favor, descreva a imagem observada.")
+            msg.setIcon(QMessageBox.Information)
+            msg.exec_()
+    
 
+       
+       
+       
+       
+       
             
 def main(): 
     
