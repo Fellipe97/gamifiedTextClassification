@@ -28,6 +28,8 @@ import json
 
 import base
 
+import difflib
+
 global_var = 0
 
 dificuldade_escolhido = ''
@@ -270,26 +272,34 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             
     def gptData(self):
         try:
+            global textoResposta_gpt
+            
             #logica gpt
             openai.api_key = os.getenv("API_KEY_GPT")
-            
-            #pegar imagem
-            if dificuldade_escolhido == 'facil':
-                pesquisa = f"Gere uma imagem com pouco detalhe e fácil entendimento que tenha tema {tema_escolhido}, sem direitos autorais"
-                print('facil')
+            ''' if dificuldade_escolhido == 'facil':
+                pesquisa_imagem = f"Gere uma imagem com poucos detalhes, bastante suncito , com elementos concretos e fácil entendimento que tenha o tema {tema_escolhido}, sem direitos autorais"
+                pesquisa_descricao = "Descreva as coisas concretas com pouco detalhe, bastante sucinto, texto pequeno e fácil entendimento dessa imagem"
             else:
-                pesquisa = f"Gere uma imagem com muito detalhe que tenha tema {tema_escolhido}, sem direitos autorais"
-                print('dificil') 
+                pesquisa_imagem = f"Gere uma imagem com muitos detalhes, com elementos concretos e que tenha tema {tema_escolhido}, sem direitos autorais"
+                pesquisa_descricao = "Descreva as coisas concretas com muito detalhes dessa imagem" '''
+                
+            if dificuldade_escolhido == 'facil':
+                pesquisa_imagem = f"Gere uma imagem com um unico objeto que represente o tema {tema_escolhido}, sem direitos autorais"
+                pesquisa_descricao = "Descreva essa imagem com poucos detalhes, texto pequeno e fácil entendimento dessa imagem. Esse texto tem que ser pequeno."
+            else:
+                pesquisa_imagem = f"Gere uma imagem com alguns objetos que represente o tema  {tema_escolhido}, sem direitos autorais"
+                pesquisa_descricao = "Descreva essa imagem com muitos detalhes e fácil entendimento dessa imagem."
             
             #esta correto mas irei comentar para economizar    
-            ''' responseImg = openai.Image.create(
+            #a pesquisa da imagem no gpt    
+            responseImg = openai.Image.create(
                 model="dall-e-3",
-                prompt= pesquisa,
+                prompt= pesquisa_imagem,
                 n=1,
             )
             print('\nURL DA IMAGEM GERADA: ',responseImg["data"][0]["url"])
-            linkFoto_gpt = responseImg["data"][0]["url"] '''
-            linkFoto_gpt = 'https://avatars.githubusercontent.com/u/58015799?s=96&v=4'
+            linkFoto_gpt = responseImg["data"][0]["url"]
+            #linkFoto_gpt = 'https://avatars.githubusercontent.com/u/58015799?s=96&v=4'
             
             #setar a imagem no programa
             pixmap = QPixmap()
@@ -298,20 +308,14 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             
             
             #esta correto mas irei comentar para economizar
-            #analisar a imagem e pegar a resposta do gpt
-            ''' if dificuldade_escolhido == 'facil':
-                pesquisa = "Descreva as coisas concretas com pouco detalhe, sucinto e fácil entendimento essa imagem"
-                print('facil')
-            else:
-                pesquisa = "Descreva as coisas concretas com muito detalhes"
-                print('dificil') 
+            #analisar a imagem e pegar a resposta do gpt   
             response = openai.ChatCompletion.create(
                 model="gpt-4-vision-preview",
                 messages=[
                     {
                         "role": "user",
                         "content": [
-                            {"type": "text", "text": "Descreva com poucos detalhes essa imagem"},
+                            {"type": "text", "text": pesquisa_descricao },
                             {
                                 "type": "image_url",
                                 "image_url": linkFoto_gpt,
@@ -324,9 +328,9 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
 
             print(response.choices[0])
             print('\n\nRESPOSTAAA: ',response["choices"][0]["message"]["content"])
-            textoResposta_gpt = response["choices"][0]["message"]["content"] '''
+            textoResposta_gpt = response["choices"][0]["message"]["content"]
             
-            textoResposta_gpt = 'Uma foto de perfil de um usuário com olhos verdes.' 
+            #textoResposta_gpt = 'Uma foto de perfil de um usuário com olhos verdes.' 
             self.resposta_gpt.setText(textoResposta_gpt)
     
             self.tema_escolhido.setText('Tema escolhido: '+tema_escolhido)
@@ -351,8 +355,17 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
           
                 
     def similaridade(self):
+        global textoResposta_gpt
+        
         if self.textRespostaUser.toPlainText():
             self.resposta_usuario.setText(self.textRespostaUser.toPlainText())
+            
+            #fazer o teste de similaridade
+            fraseUser = self.textRespostaUser.toPlainText()
+            pontuacao = round(difflib.SequenceMatcher(None, textoResposta_gpt, fraseUser).ratio() * 10, 2)
+            self.lcdNumber_2.display(pontuacao) 
+            
+            
             self.proxima_pagina()
         else:
             msg = QMessageBox()
