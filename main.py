@@ -37,7 +37,7 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
 
         self.startGameButton.clicked.connect(self.proxima_pagina)
         self.continueGame1Button.clicked.connect(self.verificarRadioButton)
-        self.continueGame2Button.clicked.connect(self.proxima_pagina)
+        self.continueGame2Button.clicked.connect(self.proximaPaginaResetTimer)
         self.resetGame1Button.clicked.connect(self.resetTema)
         self.valor_atual = 30
         self.lcdNumber.display(self.valor_atual)      
@@ -263,6 +263,7 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             
             #logica gpt
             openai.api_key = os.getenv("API_KEY_GPT")
+            
             ''' if dificuldade_escolhido == 'facil':
                 pesquisa_imagem = f"Gere uma imagem com poucos detalhes, bastante suncito , com elementos concretos e fácil entendimento que tenha o tema {tema_escolhido}, sem direitos autorais"
                 pesquisa_descricao = "Descreva as coisas concretas com pouco detalhe, bastante sucinto, texto pequeno e fácil entendimento dessa imagem"
@@ -335,7 +336,12 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             msg.setIcon(QMessageBox.Information)
             msg.exec_()
             self.pagina_anterior()
-          
+    
+    
+    def proximaPaginaResetTimer(self):
+        self.resetTime()
+        self.proxima_pagina()      
+     
                 
     def similaridade(self):
         global textoResposta_gpt
