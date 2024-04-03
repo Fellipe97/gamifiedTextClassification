@@ -7,7 +7,7 @@ python -m venv venv
 python -m pip install --upgrade pip
 python -m pip freeze > requirements.txt
 
-pyinstaller --onefile nomedoarquivo.py
+pyinstaller --noconsole --onefile main.py
 
 
 
