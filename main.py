@@ -1,58 +1,54 @@
 import os
-from PyQt5 import QtCore, QtGui, QtWidgets
-
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QGraphicsView, QGraphicsScene
-from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap
-
-
+import numpy as np
+from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QPixmap
 from dotenv import load_dotenv
-load_dotenv()
-
 import openai
-
-import time
-
 import requests
-import json
-
 import base
 
-import difflib
+# Carregando variáveis de ambiente
+load_dotenv()
 
-global_var = 0
-
-dificuldade_escolhido = ''
-tema_escolhido = ''
-contagem_regressiva_ativa = False
-
-linkFoto_gpt = ''
-textoResposta_gpt = ''
-
-class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
+class Janela(QMainWindow, base.Ui_MainWindow):
     def __init__(self, parent=None):
         super(Janela, self).__init__(parent)
         self.setupUi(self)
+        self.configurarEventos()
 
+    def configurarEventos(self):
         self.startGameButton.clicked.connect(self.proxima_pagina)
         self.continueGame1Button.clicked.connect(self.verificarRadioButton)
         self.continueGame2Button.clicked.connect(self.proximaPaginaResetTimer)
         self.resetGame1Button.clicked.connect(self.resetTema)
-        self.valor_atual = 30
-        self.lcdNumber.display(self.valor_atual)      
-        self.textRespostaUser.setPlaceholderText('Digite a sua resposta...')
         self.validarResposta.clicked.connect(self.similaridade)
         self.restartButton.clicked.connect(self.restartGame)
 
+    def get_embedding(self, text):
+        try:
+            response = openai.Embedding.create(input=[text], model="text-embedding-ada-002")
+            return np.array(response['data'][0]['embedding'])
+        except Exception as e:
+            print(f"Erro ao gerar embedding: {e}")
+            return None
 
-        # Define o tamanho mínimo e máximo da janela
-        self.setMinimumSize(800, 600)
-        self.setMaximumSize(800, 600)
-       
-        
-        
-        
+    def calcular_similaridade(self, embedding1, embedding2):
+        if embedding1 is not None and embedding2 is not None:
+            return np.dot(embedding1, embedding2) / (np.linalg.norm(embedding1) * np.linalg.norm(embedding2))
+        return 0
+
+    def similaridade(self):
+        texto_usuario = self.textRespostaUser.toPlainText()
+        if texto_usuario:
+            embedding_gpt = self.get_embedding(textoResposta_gpt)
+            embedding_usuario = self.get_embedding(texto_usuario)
+            similaridade = self.calcular_similaridade(embedding_gpt, embedding_usuario)
+            nota_similaridade = (similaridade + 1) / 2 * 10
+            self.lcdNumber_2.display(nota_similaridade)
+        else:
+            QMessageBox.information(self, 'ERRO', "Por favor, descreva a imagem observada.")
+
         
           
     
@@ -343,31 +339,6 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
         self.proxima_pagina()      
      
                 
-    def similaridade(self):
-        global textoResposta_gpt
-        
-        if self.textRespostaUser.toPlainText():
-            self.resposta_usuario.setText(self.textRespostaUser.toPlainText())
-            
-            #fazer o teste de similaridade
-            fraseUser = self.textRespostaUser.toPlainText()
-            pontuacao = round(difflib.SequenceMatcher(None, textoResposta_gpt, fraseUser).ratio() * 10, 2)
-            self.lcdNumber_2.display(pontuacao) 
-            
-            
-            self.proxima_pagina()
-        else:
-            msg = QMessageBox()
-            msg.setWindowTitle('ERRO')
-            msg.setText("Por favor, descreva a imagem observada.")
-            msg.setIcon(QMessageBox.Information)
-            msg.exec_()
-    
-
-       
-   
-   
-       
        
        
        
