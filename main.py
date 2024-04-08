@@ -5,6 +5,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtGui import QPixmap
 
+import numpy as np
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -250,7 +251,35 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
     def proximaPaginaResetTimer(self):
         self.resetTime()
         self.proxima_pagina()      
-     
+    
+    
+    def get_embedding(self, text):
+        try:
+            #logica gpt
+            openai.api_key = os.getenv("API_KEY_GPT")
+            
+            # Gera embeddings para o texto usando a API com um modelo atualizado
+            response = openai.Embedding.create(
+                input=[text],
+                model="text-embedding-ada-002"  # Substitua por um modelo válido conforme sua necessidade
+            )
+            return response['data'][0]['embedding']
+        except openai.error.RateLimitError:
+            print("Limite de quota excedido. Verifique seu plano e o uso da API.")
+            return None
+        except openai.error.OpenAIError as e:
+            print(f"Erro ao acessar a API da OpenAI: {e}")
+            return None
+
+
+    def calcular_similaridade(self, embedding1, embedding2):
+        # Calcula a similaridade de cosseno entre dois embeddings
+        if embedding1 is not None and embedding2 is not None:
+            cos_sim = np.dot(embedding1, embedding2) / (np.linalg.norm(embedding1) * np.linalg.norm(embedding2))
+            return cos_sim
+        else:
+            return 0  # Retorna 0 se algum dos embeddings não puder ser gerado
+    
                 
     def similaridade(self):
         global textoResposta_gpt
@@ -260,8 +289,35 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             
             #fazer o teste de similaridade
             fraseUser = self.textRespostaUser.toPlainText()
-            pontuacao = round(difflib.SequenceMatcher(None, textoResposta_gpt, fraseUser).ratio() * 10, 2)
-            self.lcdNumber_2.display(pontuacao) 
+            
+            # Obter embeddings para as frases
+            embedding1 = self.get_embedding(textoResposta_gpt)
+            embedding2 = self.get_embedding(fraseUser)
+            
+            #VERSÃO ANTIGA PORÉM FUNCIONA MAIS!!!!
+            #pontuacao = round(difflib.SequenceMatcher(None, textoResposta_gpt, fraseUser).ratio() * 10, 2)
+            
+            # Verificar se ambos embeddings foram gerados com sucesso antes de prosseguir
+            if embedding1 and embedding2:
+                similaridade = self.calcular_similaridade(embedding1, embedding2)
+
+                # Normalização da similaridade para uma escala de 1 a 100
+                nota_similaridade = (similaridade + 1) / 2 * 100
+                
+                # Converter a nota para uma escala de 0 a 10
+                nota_0_10 = nota_similaridade / 10
+
+                print(f"A nota de similaridade é: {nota_0_10:.2f}")
+                self.lcdNumber_2.display(nota_0_10) 
+            else:
+                print("Não foi possível calcular a similaridade devido a um erro anterior.")
+                msg = QMessageBox()
+                msg.setWindowTitle('ERROR')
+                msg.setText("Não foi pssível se conectar ao servidor.Tente novamente.")
+                msg.setIcon(QMessageBox.Information)
+                msg.exec_()
+                self.pagina_anterior()
+            
             
             
             self.proxima_pagina()
