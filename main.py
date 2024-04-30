@@ -31,6 +31,9 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
         super(Janela, self).__init__(parent)
         self.setupUi(self)
         
+        self.setWindowTitle("Duelo de Detalhes")
+
+        
         # Define o tamanho mínimo e máximo da janela
         self.setMinimumSize(800, 600)
         self.setMaximumSize(800, 600)

@@ -61,7 +61,7 @@ font-size: 32px;
 font-weight: bold;</string>
       </property>
       <property name="text">
-       <string>GAME XXX</string>
+       <string>DUELO DE DETALHES</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -71,16 +71,17 @@ font-weight: bold;</string>
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>90</y>
+        <y>110</y>
         <width>781</width>
         <height>401</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -93,7 +94,7 @@ font-weight: bold;</string>
        <number>1</number>
       </property>
       <property name="text">
-       <string>Bem-vindo ao jogo XXXX! Vamos aprender a como jogar? 
+       <string>Bem-vindo ao jogo Duelo de Detalhes! Vamos aprender a como jogar? 
 Algumas regras para voce se dar bem no jogo:
 
 
@@ -145,7 +146,7 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
 </string>
       </property>
       <property name="text">
-       <string>START GAME</string>
+       <string>START</string>
       </property>
       <property name="flat">
        <bool>false</bool>
@@ -164,9 +165,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -196,9 +198,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -278,9 +281,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -304,9 +308,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -354,9 +359,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -377,9 +383,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -400,9 +407,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -423,9 +431,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -446,9 +455,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -469,9 +479,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -492,9 +503,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -515,9 +527,10 @@ Quanto mais parecido, melhor sera sua pontuacao!</string>
        </property>
        <property name="font">
         <font>
-         <family>8514oem</family>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="cursor">
@@ -571,9 +584,10 @@ font-weight: bold;</string>
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -804,9 +818,10 @@ border-radius: 50%
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -853,9 +868,10 @@ border-radius: 50%
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -903,9 +919,10 @@ border-radius: 50%
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
@@ -935,9 +952,10 @@ border-radius: 50%
       </property>
       <property name="font">
        <font>
-        <family>8514oem</family>
-        <weight>75</weight>
-        <bold>true</bold>
+        <family>MS Shell Dlg 2</family>
+        <pointsize>14</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
        </font>
       </property>
       <property name="autoFillBackground">
