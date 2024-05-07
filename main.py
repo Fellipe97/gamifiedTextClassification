@@ -302,13 +302,18 @@ class Janela(QtWidgets.QMainWindow, base.Ui_MainWindow):
             
             # Verificar se ambos embeddings foram gerados com sucesso antes de prosseguir
             if embedding1 and embedding2:
-                similaridade = self.calcular_similaridade(embedding1, embedding2)
+                num_words1 = len(str(textoResposta_gpt).split())
+                num_words2 = len(str(fraseUser).split())
+                penalty_factor = 1 - abs(num_words1 - num_words2) / max(num_words1, num_words2)
+                
+                similaridade = self.calcular_similaridade(embedding1, embedding2) * penalty_factor
 
                 # Normalização da similaridade para uma escala de 1 a 100
-                nota_similaridade = (similaridade + 1) / 2 * 100
+                #nota_similaridade = (similaridade + 1) / 2 * 100
                 
                 # Converter a nota para uma escala de 0 a 10
-                nota_0_10 = nota_similaridade / 10
+                #nota_0_10 = nota_similaridade / 10
+                nota_0_10 = round(similaridade*10, 2) 
 
                 print(f"A nota de similaridade é: {nota_0_10:.2f}")
                 self.lcdNumber_2.display(nota_0_10) 

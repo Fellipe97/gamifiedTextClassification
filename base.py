@@ -199,7 +199,7 @@ class Ui_MainWindow(object):
         self.radioButton_artista.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
         self.radioButton_artista.setObjectName("radioButton_artista")
         self.radioButton_ferramenta = QtWidgets.QRadioButton(self.groupBox_2)
-        self.radioButton_ferramenta.setGeometry(QtCore.QRect(420, 90, 131, 31))
+        self.radioButton_ferramenta.setGeometry(QtCore.QRect(420, 90, 151, 31))
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         font.setPointSize(14)
